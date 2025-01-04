@@ -12,20 +12,18 @@ def count_lines_in_file(file_path):
     return int(result.stdout.split()[0])
 
 #takes the directory, for each file it random selects a specified number of reviews
-# and finds the average compound difference between the title and text (title-text)
+#and finds the average compound difference between the title and text (title minus text)
 def count_lines_in_files(directory, number):
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         if os.path.isfile(file_path):
 
             line_count = count_lines_in_file(file_path)
-            if file_path=='/Users/ashleyzhou/Desktop/amazon_reviews/.DS_Store':
+            if file_path=='/amazon_reviews/.DS_Store':
                 continue
-            #print("line count is: "+str(line_count)+"\n")
             sum = 0
             for i in range(1,number):
                 line_num = random.randint(0, line_count-1)
-                #print("line num is: "+str(line_num)+"\n")
                 line = get_line_from_file(file_path, line_num)
                 review = json.loads(line)
                 title = review.get('title', 'No title')
@@ -68,15 +66,3 @@ def get_line_from_file(file_path, line_number):
     except subprocess.CalledProcessError as e:
         print(f"Error occurred: {e}")
         return None
-    
-#print(get_line_from_file('/Users/ashleyzhou/Desktop/amazon_reviews/Amazon_Fashion.jsonl', 2500930))
-
-#count_lines_in_file('/Users/ashleyzhou/Desktop/amazon_reviews/All_Beauty.jsonl')
-
-directory = '/Users/ashleyzhou/Desktop/amazon_reviews'
-count_lines_in_files(directory, 100)
-'''
-line_counts = count_lines_in_files(directory)
-for filename, count in line_counts.items():
-    print(f"{filename}: {count} lines")
-'''
